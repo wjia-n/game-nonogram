@@ -887,11 +887,18 @@ class _NameField extends StatefulWidget {
 
 class _NameFieldState extends State<_NameField> {
   late final TextEditingController _c;
+  late final FocusNode _focus;
 
   @override
   void initState() {
     super.initState();
     _c = TextEditingController(text: widget.initial);
+    _focus = FocusNode();
+    // Commit on focus loss too: keyboard-done alone misses taps elsewhere
+    // on the screen, silently dropping the rename.
+    _focus.addListener(() {
+      if (!_focus.hasFocus) widget.onDone(_c.text);
+    });
   }
 
   @override
@@ -904,6 +911,7 @@ class _NameFieldState extends State<_NameField> {
 
   @override
   void dispose() {
+    _focus.dispose();
     _c.dispose();
     super.dispose();
   }
@@ -925,6 +933,7 @@ class _NameFieldState extends State<_NameField> {
       ),
       child: TextField(
         controller: _c,
+        focusNode: _focus,
         style: Press.engraved(17, theme: widget.theme),
         maxLength: 16,
         decoration: InputDecoration(
@@ -935,6 +944,10 @@ class _NameFieldState extends State<_NameField> {
               theme: widget.theme,
               color: widget.theme.paperTextDim.withValues(alpha: 0.7)),
         ),
+        // Save-on-keystroke: the rename persists even if the app is
+        // killed mid-edit; onSubmitted/onEditingComplete still fire for
+        // the keyboard-done path.
+        onChanged: widget.onDone,
         onSubmitted: widget.onDone,
         onEditingComplete: () => widget.onDone(_c.text),
       ),
