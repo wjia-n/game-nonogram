@@ -42,7 +42,7 @@ class PressSettings extends ChangeNotifier {
   int gamesPlayed = 0;
   int wins = 0;
   int perfectPulls = 0;
-  bool isPro = false;
+  bool isPro = true; // everything unlocked — no Pro version
   int dailyStreak = 0;
   String lastDailyDate = '';
   Set<String> dailyDone = {};
@@ -125,7 +125,7 @@ class PressSettings extends ChangeNotifier {
     gamesPlayed = p.getInt(_kGames) ?? 0;
     wins = p.getInt(_kWins) ?? 0;
     perfectPulls = p.getInt(_kPerfect) ?? 0;
-    isPro = p.getBool(_kIsPro) ?? false;
+    isPro = true; // everything unlocked
     dailyStreak = p.getInt(_kStreak) ?? 0;
     lastDailyDate = p.getString(_kLastDaily) ?? '';
     dailyDone = (p.getStringList(_kDailyDone) ?? []).toSet();
