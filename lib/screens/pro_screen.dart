@@ -169,33 +169,6 @@ class _ProScreenState extends State<ProScreen> {
                           color:
                               t.paper.withValues(alpha: 0.7)),
                       textAlign: TextAlign.center,
-                    )
-                  else if (store.proProduct != null)
-                    Column(
-                      children: [
-                        BrassButton(
-                          label:
-                              '✦  Unlock PRO — ${store.proProduct!.price}',
-                          width: 290,
-                          theme: t,
-                          primary: true,
-                          onTap: store.purchaseInProgress.value
-                              ? null
-                              : () {
-                                  widget.audio.click();
-                                  store.buyPro();
-                                },
-                        ),
-                        const SizedBox(height: 8),
-                        TextButton(
-                          onPressed: () {
-                            widget.audio.click();
-                            store.restore();
-                          },
-                          child: Text('Restore purchases',
-                              style: Press.label(13, theme: t)),
-                        ),
-                      ],
                     ),
                   const SizedBox(height: 16),
                   PressCard(
