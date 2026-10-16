@@ -3,6 +3,7 @@ import '../services/audio_service.dart';
 import '../services/settings_service.dart';
 import '../theme/letterpress.dart';
 import '../theme/press_themes.dart';
+import '../transfer/transfer_ui.dart';
 
 /// Workshop Settings — hanging wooden shop sign, brass-rimmed paper cards,
 /// brass press-lever toggles and type-slug selectors. No flat iOS switches.
@@ -44,6 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
               child: Column(
                 children: [
+              TransferSaveTile(gameSlug: 'nonogram'),
                   _hangingSign(t),
                   const SizedBox(height: 18),
                   PressCard(
