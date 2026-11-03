@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../engine/nonogram_engine.dart';
@@ -260,7 +261,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       _MenuIcon(
                         theme: t,
                         icon: Icons.workspace_premium,
-                        label: _s.isPro ? 'PRO ✓' : 'PRO',
+                        label: defaultTargetPlatform == TargetPlatform.iOS
+                            ? '⭐ Gold Star'
+                            : (_s.isPro ? 'PRO ✓' : 'PRO'),
                         onTap: _goPro,
                       ),
                     ],
@@ -957,6 +960,46 @@ class _SupportCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screen = context.findAncestorStateOfType<_MenuScreenState>()!;
     final audio = screen.widget.audio;
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return PressCard(
+        theme: theme,
+        title: 'Gold Star',
+        child: Column(
+          children: [
+            Text(
+              'This game is fully unlocked. Get a Gold Star to show your support!',
+              style: Press.body(14, theme: theme),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Builder(builder: (_) {
+              if (!store.storeReady) {
+                return Text(store.error ?? 'Loading…',
+                    style: Press.body(13, theme: theme));
+              }
+              final star = store.starProduct;
+              if (star == null) {
+                return Text('Gold Star coming soon.',
+                    style: Press.body(13, theme: theme));
+              }
+              return ValueListenableBuilder<bool>(
+                valueListenable: store.goldStarOwned,
+                builder: (_, owned, _) => owned
+                    ? const Text('⭐ Gold Star earned — thank you!',
+                        textAlign: TextAlign.center)
+                    : ElevatedButton(
+                        onPressed: () {
+                          audio.click();
+                          store.buyStar(star);
+                        },
+                        child: Text('⭐ Gold Star ${star.price}'),
+                      ),
+              );
+            }),
+          ],
+        ),
+      );
+    }
     return PressCard(
       theme: theme,
       title: 'Support Wajiha',
