@@ -480,7 +480,9 @@ class _ModeCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Timed: beat the clock. Mistake-Free: one wrong ink ends the run (PRO).',
+            defaultTargetPlatform == TargetPlatform.iOS
+                ? 'Timed: beat the clock. Mistake-Free: one wrong ink ends the run.'
+                : 'Timed: beat the clock. Mistake-Free: one wrong ink ends the run (PRO).',
             style: Press.body(12, theme: theme, color: theme.paperTextDim),
             textAlign: TextAlign.center,
           ),
@@ -709,7 +711,9 @@ class _StyleCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                '🔒 ${PressThemes.all.length - PressThemes.freeThemeIds.length} more colorways in PRO',
+                defaultTargetPlatform == TargetPlatform.iOS
+                    ? '🔒 ${PressThemes.all.length - PressThemes.freeThemeIds.length} more colorways'
+                    : '🔒 ${PressThemes.all.length - PressThemes.freeThemeIds.length} more colorways in PRO',
                 style: Press.label(12,
                     theme: theme, color: theme.paperTextDim),
               ),
@@ -967,7 +971,7 @@ class _SupportCard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'This game is fully unlocked. Get a Gold Star to show your support!',
+              'This game is fully unlocked. Get a Gold Star!',
               style: Press.body(14, theme: theme),
               textAlign: TextAlign.center,
             ),
